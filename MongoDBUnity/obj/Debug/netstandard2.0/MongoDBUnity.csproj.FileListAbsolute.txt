@@ -1,0 +1,10 @@
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\bin\Debug\netstandard2.0\MongoDBUnity.deps.json
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\bin\Debug\netstandard2.0\MongoDBUnity.dll
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\bin\Debug\netstandard2.0\MongoDBUnity.pdb
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\obj\Debug\netstandard2.0\MongoDBUnity.csproj.AssemblyReference.cache
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\obj\Debug\netstandard2.0\MongoDBUnity.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\obj\Debug\netstandard2.0\MongoDBUnity.AssemblyInfoInputs.cache
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\obj\Debug\netstandard2.0\MongoDBUnity.AssemblyInfo.cs
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\obj\Debug\netstandard2.0\MongoDBUnity.csproj.CoreCompileInputs.cache
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\obj\Debug\netstandard2.0\MongoDBUnity.dll
+C:\Users\el_lo\Documents\CODE\2.PRIVATE\SeAcabo\MongoDBUnity\obj\Debug\netstandard2.0\MongoDBUnity.pdb
