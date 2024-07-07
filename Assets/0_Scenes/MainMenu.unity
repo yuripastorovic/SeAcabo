@@ -284,7 +284,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 143403059}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1249415626}
+        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_MethodName: OnPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &143403059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,7 +401,7 @@ MonoBehaviour:
     m_MaxSize: 70
     m_Alignment: 4
     m_AlignByGeometry: 0
-    m_RichText: 0
+    m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
@@ -892,7 +904,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 717875639}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1249415626}
+        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_MethodName: OnUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &717875639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1014,7 +1038,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 810208234}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1249415626}
+        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_MethodName: OnFarandula
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &810208234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1445,7 +1481,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1084454412}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1249415626}
+        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_MethodName: OnAnime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1084454412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1653,6 +1701,7 @@ GameObject:
   - component: {fileID: 1249415623}
   - component: {fileID: 1249415625}
   - component: {fileID: 1249415624}
+  - component: {fileID: 1249415626}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -1721,6 +1770,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249415622}
   m_CullTransparentMesh: 1
+--- !u!114 &1249415626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249415622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbfbea5eb3539547a0935d207c90400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageAnime: {fileID: 532825705}
+  imageFutbol: {fileID: 1675485681}
+  imageFarandula: {fileID: 663667668}
+  team1: {fileID: 1783046251}
+  team2: {fileID: 1754575371}
+  accept: {fileID: 21300000, guid: c3ab03d2e77b03341b946e1f4c2ea19a, type: 3}
+  cancel: {fileID: 21300000, guid: 8ff9a752666cc3742a05de9ab4757a91, type: 3}
 --- !u!1 &1675485679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1886,7 +1954,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 15
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -2169,7 +2237,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 15
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -2387,7 +2455,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2041691976}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1249415626}
+        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_MethodName: OnFutbol
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2041691976
 MonoBehaviour:
   m_ObjectHideFlags: 0
