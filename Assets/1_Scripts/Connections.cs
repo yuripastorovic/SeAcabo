@@ -58,7 +58,7 @@ public class Connections : MonoBehaviour
         db = client.GetDatabase("6689d87720187f14978cf0fe");
     }
 
-    public async Task GetCommon()
+    public async Task GetCards()
     {
         if (CheckConnection()) 
         {
@@ -81,7 +81,7 @@ public class Connections : MonoBehaviour
                     Desc = document.Contains("desc") ? document["desc"].AsString : "unknown"
                 };
 
-                Debug.Log($"Document: Name = {card.Name}, Category = {card.Category}");
+                //Debug.Log($"Document: Name = {card.Name}, Category = {card.Category}");
 
                 switch (card.Category)
                 {
@@ -101,9 +101,9 @@ public class Connections : MonoBehaviour
                         Debug.LogWarning($"Unknown category: {card.Name}");
                         break;
                 }
+                Options.Instance.defaultMaze.Add(card);
             }
         }
-        
     }
 
     public bool CheckConnection() 
@@ -124,41 +124,3 @@ public class Connections : MonoBehaviour
         }
     }
 }
-/*
-     public void GetCommon()
-    {
-        var connectionUri = "mongodb+srv://jorgepastordev:65t5WivMWkukXMMV@cards.2us78zb.mongodb.net/?retryWrites=true&w=majority&appName=Cards";
-
-        var settings = MongoClientSettings.FromConnectionString(connectionUri);
-
-        // Set the ServerApi field of the settings object to set the version of the Stable API on the client
-        settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-
-        // Create a new client and connect to the server
-        var client = new MongoClient(settings);
-
-        // Send a ping to confirm a successful connection
-        try
-        {
-            var result = client.GetDatabase("admin").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
-            Debug.Log("Pinged your deployment. You successfully connected to MongoDB!");
-
-            // Conectar a la base de datos que contiene la colección 'common'
-            var database = client.GetDatabase("yourDatabaseName"); // Reemplaza 'yourDatabaseName' con el nombre real de tu base de datos
-            var collection = database.GetCollection<BsonDocument>("common");
-
-            // Leer todos los registros de la colección
-            var documents = collection.Find(new BsonDocument()).ToList();
-
-            // Iterar y mostrar los documentos
-            foreach (var document in documents)
-            {
-                Debug.Log(document.ToString());
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.Log(ex);
-        }
-    }
- */
