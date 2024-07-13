@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,31 +7,35 @@ using UnityEngine.UI;
 public class Options : MonoBehaviour
 {
     private static Options _instance;
-
+    #region COMPONENTS
     [SerializeField] public GameObject jugar;
+    [SerializeField] public GameObject actualizar;
 
     [SerializeField] private Image imageAnime;
     [SerializeField] private Image imageFutbol;
     [SerializeField] private Image imageFarandula;
 
-    [SerializeField] private InputField team1;
-    [SerializeField] private InputField team2;
+    [SerializeField] public InputField team1;
+    [SerializeField] public InputField team2;
 
     [SerializeField] private Sprite accept;
     [SerializeField] private Sprite cancel;
+    #endregion
+    #region VARIABLES
+    [HideInInspector] public bool anime;
+    [HideInInspector] public bool futbol;
+    [HideInInspector] public bool farandula;
 
-    private bool anime;
-    private bool futbol;
-    private bool farandula;
+    [HideInInspector] public List<Card> defaultMaze;                      // Representa al mazo por defecto
+    [HideInInspector] public List<Card> personalMaze;                     // Representa el mazo personal del jugador +40 cards
+    [HideInInspector] public List<Card> gameMaze1;                        // Representa el mazo del primer juego
+    [HideInInspector] public List<Card> gameMaze2;                        // Representa el mazo del segundo juego
+    [HideInInspector] public List<Card> gameMaze3;                        // Representa el mazo del tercer juego
 
-    public List<Card> defaultMaze;                      // Representa al mazo por defecto
-    public List<Card> personalMaze;                     // Representa el mazo personal del jugador +40 cards
-    public List<Card> gameMaze1;                        // Representa el mazo del primer juego
-    public List<Card> gameMaze2;                        // Representa el mazo del segundo juego
-    public List<Card> gameMaze3;                        // Representa el mazo del tercer juego
-
-    private bool saved = false;
-
+    [HideInInspector] private bool saved         = false;
+    [HideInInspector] private bool hasConnection = false;
+    #endregion
+    #region SINGLETON
     public static Options Instance
     {
         get
@@ -51,29 +56,19 @@ public class Options : MonoBehaviour
             return _instance;
         }
     }
+    #endregion
     void Start()
     {
-        LocalData.Instance.LoadDefaultMaze();
-        jugar.SetActive(saved);
-
-        LoadOptions();
-
-        personalMaze = new List<Card>();
-        gameMaze1    = new List<Card>();
-        gameMaze2    = new List<Card>();
-        gameMaze3    = new List<Card>();
+        InitializeMazes();
+        CheckConnectivity();
+        CheckLocalData();
     }
 
     void Update()
     {
         Refesh();
-        if (defaultMaze.Count != 0)
-        {
-            saved = true;
-        }
-        jugar.SetActive(saved);
     }
-
+    #region ON CLICK
     public void OnAnime()
     {
         anime = !anime;
@@ -97,39 +92,42 @@ public class Options : MonoBehaviour
 
     public async void OnUpdate()
     {
-        await Connections.Instance.GetCards();
-        //System.Threading.Tasks.Task task = Connections.Instance.GetCommon();
-        LocalData.Instance.SaveDefaultMaze();
-        LocalData.Instance.LoadDefaultMaze();
+        if (hasConnection)
+        {
+            await Connections.Instance.GetCards();
+            LocalData.Instance.SaveDefaultMaze();
+            UpdateLocalData();
+        }
+        ImprimirBarajas();
     }
 
     public void OnPlay()
     {
-        GameConfig();
-        SelectCards();
-        SaveMaze();
+        SavePersonalOptions();
+        UpdatePersonalMaze();
+        ImprimirUna(defaultMaze);
+        Debug.Log("----------------------------------");
+        ImprimirUna(gameMaze2);
     }
-
-   
-
-    
-
-    private void GameConfig()
+    #endregion
+    #region LOGIC
+    private void InitializeMazes()
     {
-        // Seleccion de opciones de juego
-        PlayerPrefs.SetInt("anime", anime ? 1 : 0);
-        PlayerPrefs.SetInt("futbol", futbol ? 1 : 0);
-        PlayerPrefs.SetInt("farandula", farandula ? 1 : 0);
-
-        // Seleccion de nombres de equipo
-        PlayerPrefs.SetString("team1", team1.text);
-        PlayerPrefs.SetString("team2", team2.text);
-
-        // Confirmación de guardado
-        PlayerPrefs.Save();
+        personalMaze = new List<Card>();
+        gameMaze1    = new List<Card>();
+        gameMaze2    = new List<Card>();
+        gameMaze3    = new List<Card>();
     }
-
-    private void SelectCards()
+    private void SavePersonalOptions()
+    {
+        LocalData.Instance.SavePersonalOptions();
+    }
+    private void SaveMaze()
+    {
+        LocalData.Instance.SaveAll();
+        LocalData.Instance.LoadAll();
+    }
+    private void UpdatePersonalMaze()
     {
         // Vaciamos barajas
         personalMaze.Clear();
@@ -165,27 +163,10 @@ public class Options : MonoBehaviour
         gameMaze1 = personalMaze.OrderBy(x => random.Next()).Take(40).ToList();
         gameMaze2 = gameMaze1.OrderBy(x => random.Next()).Take(40).ToList();
         gameMaze3 = gameMaze1.OrderBy(x => random.Next()).Take(40).ToList();
+        SaveMaze();
     }
-
-    private void SaveMaze()
-    {
-        // Guardamos en local cada una de las barajas
-        LocalData.Instance.SaveAll();
-        LocalData.Instance.LoadAll();
-    }
-
-    private void LoadOptions()
-    {
-        // Cargar selección de opciones de juego
-        anime     = PlayerPrefs.GetInt("anime") == 1;
-        futbol    = PlayerPrefs.GetInt("futbol") == 1;
-        farandula = PlayerPrefs.GetInt("farandula") == 1;
-
-        // Cargar nombres de equipo
-        team1.text = PlayerPrefs.GetString("team1", "");
-        team2.text = PlayerPrefs.GetString("team2", "");
-    }
-
+    #endregion
+    #region OTHERS
     private void Refesh()
     {
         if (anime)
@@ -216,6 +197,42 @@ public class Options : MonoBehaviour
         }
     }
 
+    private void CheckConnectivity()
+    {
+        hasConnection = Application.internetReachability != NetworkReachability.NotReachable;
+        actualizar.SetActive(hasConnection);
+    }
+    private void LoadFromLocal()
+    {
+        // Cragamos opciones del usuario de sesion anterior
+        LocalData.Instance.LoadPersonalOptions();
+
+        // Cargamos mazo por defecto si existe
+        LocalData.Instance.LoadDefaultMaze();
+    }
+    private void CheckLocalData()
+    {
+        LoadFromLocal();
+        saved = defaultMaze.Count != 0;
+        jugar.SetActive(saved);
+    }
+    private void UpdateLocalData()
+    {
+        SaveMaze();
+        SavePersonalOptions();
+        CheckLocalData();
+    }
+   
+    private void ImprimirUna(List<Card> cardList)
+    {
+        int cont = 0;
+        foreach (var maze in cardList)
+        {
+            cont++;
+            Debug.Log($"{cont} --Name = {maze.Name}, Category = {maze.Category}, Winner = {maze.Winner}, desc = {maze.Desc}");
+        }
+
+    }
     private void ImprimirBarajas()
     {
         int cont = 0;
@@ -237,4 +254,5 @@ public class Options : MonoBehaviour
             Debug.Log($"{cont} --Name = {maze.Name}, Category = {maze.Category}, Winner = {maze.Winner}, desc = {maze.Desc}");
         }
     }
+    #endregion  
 }

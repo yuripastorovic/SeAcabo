@@ -48,7 +48,20 @@ public class LocalData : MonoBehaviour
     {
         Save(Options.Instance.defaultMaze, "maze0");
     }
+    public void SavePersonalOptions()
+    {
+        // Seleccion de opciones de juego
+        PlayerPrefs.SetInt("anime", Options.Instance.anime ? 1 : 0);
+        PlayerPrefs.SetInt("futbol", Options.Instance.futbol ? 1 : 0);
+        PlayerPrefs.SetInt("farandula", Options.Instance.farandula ? 1 : 0);
 
+        // Seleccion de nombres de equipo
+        PlayerPrefs.SetString("team1", Options.Instance.team1.text);
+        PlayerPrefs.SetString("team2", Options.Instance.team2.text);
+
+        // Confirmación de guardado
+        PlayerPrefs.Save();
+    }
     #endregion
     #region LOAD
     private List<Card> Load(string mazeName)
@@ -77,6 +90,17 @@ public class LocalData : MonoBehaviour
     public void LoadDefaultMaze()
     {
         Options.Instance.defaultMaze = Load("maze0");
+    }
+    public void LoadPersonalOptions()
+    {
+        // Cargar selección de opciones de juego
+        Options.Instance.anime      = PlayerPrefs.GetInt("anime") == 1;
+        Options.Instance.futbol     = PlayerPrefs.GetInt("futbol") == 1;
+        Options.Instance.farandula  = PlayerPrefs.GetInt("farandula") == 1;
+
+        // Cargar nombres de equipo
+        Options.Instance.team1.text = PlayerPrefs.GetString("team1", "");
+        Options.Instance.team2.text = PlayerPrefs.GetString("team2", "");
     }
     #endregion
 
