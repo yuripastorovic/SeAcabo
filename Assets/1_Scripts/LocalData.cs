@@ -5,8 +5,11 @@ using NewtonsoftFormatting = Newtonsoft.Json.Formatting;
 
 public class LocalData : MonoBehaviour
 {
-    #region SINGLETON
     private static LocalData _instance;
+    [HideInInspector] public List<Card> gameMaze;
+    [HideInInspector] public List<Card> alterMaze;
+    [HideInInspector] public List<Card> newAlterMaze;
+    #region SINGLETON
     public static LocalData Instance
     {
         get
@@ -28,13 +31,18 @@ public class LocalData : MonoBehaviour
         }
     }
     #endregion
+    private void Start()
+    {
+        gameMaze = new List<Card>();
+        alterMaze = new List<Card>();       // Almacena lo que se juega en una partida, las que se ven
+    }
     #region SAVE
     public void Save(List<Card> maze, string mazeName)
     {
         string json = NewtonsoftJson.SerializeObject(maze, NewtonsoftFormatting.Indented);
-        //Debug.Log("Serialized JSON: " + json);
 
         PlayerPrefs.SetString(mazeName, json);
+        PlayerPrefs.Save();
     }
 
     public void SaveAll()
@@ -54,6 +62,7 @@ public class LocalData : MonoBehaviour
         PlayerPrefs.SetInt("anime", Options.Instance.anime ? 1 : 0);
         PlayerPrefs.SetInt("futbol", Options.Instance.futbol ? 1 : 0);
         PlayerPrefs.SetInt("farandula", Options.Instance.farandula ? 1 : 0);
+        PlayerPrefs.SetInt("help", Options.Instance.help ? 1 : 0);
 
         // Seleccion de nombres de equipo
         PlayerPrefs.SetString("team1", Options.Instance.team1.text);
@@ -86,7 +95,22 @@ public class LocalData : MonoBehaviour
         Options.Instance.gameMaze2 = Load("maze2");
         Options.Instance.gameMaze3 = Load("maze3");
     }
-
+    public List<Card> GetGameMaze1()
+    {
+        return Load("maze1");
+    }
+    public List<Card> GetGameMaze2()
+    {
+        return Load("maze2");
+    }
+    public List<Card> GetGameMaze3()
+    {
+        return Load("maze3");
+    }
+    public List<Card> GetDefaultMaze()
+    {
+        return Load("maze0");
+    }
     public void LoadDefaultMaze()
     {
         Options.Instance.defaultMaze = Load("maze0");
@@ -94,15 +118,36 @@ public class LocalData : MonoBehaviour
     public void LoadPersonalOptions()
     {
         // Cargar selección de opciones de juego
-        Options.Instance.anime      = PlayerPrefs.GetInt("anime") == 1;
-        Options.Instance.futbol     = PlayerPrefs.GetInt("futbol") == 1;
+        Options.Instance.anime      = PlayerPrefs.GetInt("anime")     == 1;
+        Options.Instance.futbol     = PlayerPrefs.GetInt("futbol")    == 1;
         Options.Instance.farandula  = PlayerPrefs.GetInt("farandula") == 1;
+        Options.Instance.help       = PlayerPrefs.GetInt("help")      == 1;
 
         // Cargar nombres de equipo
         Options.Instance.team1.text = PlayerPrefs.GetString("team1", "");
         Options.Instance.team2.text = PlayerPrefs.GetString("team2", "");
     }
     #endregion
-
-
+    public List<Card> GetCurrentGameMaze()
+    {
+        Options.Instance.ImprimirBarajas();
+        int stage = PlayerPrefs.GetInt("ronda");
+        if(stage == 1)
+        {
+            
+            return Options.Instance.gameMaze1;
+        }
+        else if (stage == 2) 
+        {
+            return Options.Instance.gameMaze2;
+        }
+        else if (stage == 3)
+        {
+            return Options.Instance.gameMaze3;
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
