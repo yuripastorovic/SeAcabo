@@ -73,7 +73,7 @@ public class LocalData : MonoBehaviour
     }
     #endregion
     #region LOAD
-    private List<Card> Load(string mazeName)
+    public List<Card> Load(string mazeName)
     {
         List<Card> maze = new List<Card>();
         string jsonFromPrefs = PlayerPrefs.GetString(mazeName);

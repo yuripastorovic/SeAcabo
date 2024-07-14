@@ -40,12 +40,12 @@ public class InfoMenu : MonoBehaviour
             title.text = "Ronda 1\nDescripción";
             body.text  = "Un miembro del equipo tiene 30 segundos para describir los nombres de las cartas a su equipo sin decir el nombre exacto, traducirlo, usar abreviaturas, ni hacer gestos.\n\nEl jugador podrá pasar de carta, pero perderá 15 segundos.";
         }
-        else if (stage == 2)
+        else if (stage == 3)
         {
             title.text = "Ronda 2\nPassword";
             body.text  = "El jugador debe describir los nombres de las cartas durante 40 con una sola palabra.\n\nRecuerda utilizar una sola palabra\nPuedes pasar de carta sin penalizacion.";
         }
-        else if (stage == 3)
+        else if (stage == 4)
         {
             title.text = "Ronda 3\nMímica";
             body.text  = "El jugador debe describir los nombres de las cartas durante 60 solo haciendo gestos.\n\n\nPoneros deacuerdo sobre cantar o tararear, puede hacer el juego mas divertido.\n\nPuedes pasar de carta sin penalizacion.";
