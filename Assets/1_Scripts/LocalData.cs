@@ -128,13 +128,28 @@ public class LocalData : MonoBehaviour
         Options.Instance.team2.text = PlayerPrefs.GetString("team2", "");
     }
     #endregion
+    public void SaveCurrentGameMaze(List<Card> gameMaze)
+    {
+        int stage = PlayerPrefs.GetInt("ronda");
+        if (stage == 1)
+        {
+            Save(gameMaze, "maze1");
+        }
+        else if (stage == 2)
+        {
+            Save(gameMaze, "maze2");
+        }
+        else if (stage == 3)
+        {
+            Save(gameMaze, "maze3");
+        }
+        PlayerPrefs.Save();
+    }
     public List<Card> GetCurrentGameMaze()
     {
-        Options.Instance.ImprimirBarajas();
         int stage = PlayerPrefs.GetInt("ronda");
         if(stage == 1)
         {
-            
             return Options.Instance.gameMaze1;
         }
         else if (stage == 2) 

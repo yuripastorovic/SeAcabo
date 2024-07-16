@@ -170,13 +170,11 @@ public class GameScene : MonoBehaviour
     {
         currentMaze[index].Winner = "fail";
         altMaze.Add(currentMaze[index]);
-        turno++;
-        PlayerPrefs.SetInt("turno", turno);
-        PlayerPrefs.Save();
         LocalData.Instance.Save(altMaze, "altMaze");
         Debug.Log(LocalData.Instance.Load("altMaze").Count);
+        ImprimirUna(LocalData.Instance.Load("altMaze"));
         // la idea es guardar el que se usa en esta partida, verificar en la siguiente y sobre escribir cambios 
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(3);
     }
     #endregion
 
