@@ -21,7 +21,7 @@ public class ScrollController : MonoBehaviour
     void Start()
     {
         currentMaze = new List<Card>();
-        currentMaze = LocalData.Instance.Load("alterMaze");
+        currentMaze = LocalData.Instance.Load("altMaze");
         GetTeam();
         PopulateScrollView();
     }
@@ -62,9 +62,13 @@ public class ScrollController : MonoBehaviour
             winner = PlayerPrefs.GetString("team1");
         }
     }
-    private void GenerateItem(Card card)
+    private void GenerateItem(Card card, int index)
     {
         GameObject newItem = Instantiate(itemPrefab, contentTransform);
+
+        RectTransform rectTransform = newItem.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = new Vector2(0, -index * 150);
+
         newItem.GetComponentInChildren<Text>().text = card.Name;
         Button button = newItem.GetComponentInChildren<Button>();
 
@@ -96,9 +100,9 @@ public class ScrollController : MonoBehaviour
 
     private void PopulateScrollView()
     {
-        foreach (var item in currentMaze)
+        for (int i = 0; i < currentMaze.Count; i++)
         {
-            GenerateItem(item);
+            GenerateItem(currentMaze[i], i);
         }
     }
 
