@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,9 +19,13 @@ public class ScrollController : MonoBehaviour
     private List<Card> currentMaze;
     private int turno;
     private string winner;
+    private int stage;
+    private string team1;
+    private string team2;
 
     void Start()
     {
+        stage = PlayerPrefs.GetInt("ronda");
         currentMaze = new List<Card>();
         currentMaze = LocalData.Instance.Load("altMaze");
         GetTeam();
@@ -112,7 +118,66 @@ public class ScrollController : MonoBehaviour
         PlayerPrefs.SetInt("turno", turno);
         PlayerPrefs.Save();
         Debug.Log(LocalData.Instance.Load("altMaze").Count);
-        // la idea es guardar el que se usa en esta partida, verificar en la siguiente y sobre escribir cambios 
-        SceneManager.LoadScene(0);
+        if (IsEndStage()) 
+        {
+            // la idea es guardar el que se usa en esta partida, verificar en la siguiente y sobre escribir cambios 
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
+        
+    }
+    private bool IsEndStage()
+    {
+        if(stage == 1)
+        {
+            var compare = LocalData.Instance.GetGameMaze1();
+            bool respuesta = compare.All(card => !card.Winner.Equals("unknown"));
+
+            if (respuesta)
+            {
+                int countTeam1 = compare.Count(card => card.Winner.Equals(PlayerPrefs.GetString("team1")));
+                int countTeam2 = compare.Count(card => card.Winner.Equals(PlayerPrefs.GetString("team2")));
+                PlayerPrefs.SetInt("round1Team1", countTeam1);
+                PlayerPrefs.SetInt("round1Team2", countTeam2);
+                PlayerPrefs.Save();
+            }
+
+            return respuesta;
+        }
+        else if (stage == 2) 
+        {
+            var compare = LocalData.Instance.GetGameMaze2();
+            bool respuesta = compare.All(card => !card.Winner.Equals("unknown"));
+
+            if (respuesta)
+            {
+                int countTeam1 = compare.Count(card => card.Winner.Equals(PlayerPrefs.GetString("team1")));
+                int countTeam2 = compare.Count(card => card.Winner.Equals(PlayerPrefs.GetString("team2")));
+                PlayerPrefs.SetInt("round2Team1", countTeam1);
+                PlayerPrefs.SetInt("round2Team2", countTeam2);
+                PlayerPrefs.Save();
+            }
+
+            return respuesta;
+        }
+        else
+        {
+            var compare = LocalData.Instance.GetGameMaze3();
+            bool respuesta = compare.All(card => !card.Winner.Equals("unknown"));
+
+            if (respuesta)
+            {
+                int countTeam1 = compare.Count(card => card.Winner.Equals(PlayerPrefs.GetString("team1")));
+                int countTeam2 = compare.Count(card => card.Winner.Equals(PlayerPrefs.GetString("team2")));
+                PlayerPrefs.SetInt("round3Team1", countTeam1);
+                PlayerPrefs.SetInt("round3Team2", countTeam2);
+                PlayerPrefs.Save();
+            }
+
+            return respuesta;
+        }
     }
 }

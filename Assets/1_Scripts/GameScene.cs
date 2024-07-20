@@ -92,6 +92,15 @@ public class GameScene : MonoBehaviour
     private void FindNextCard()
     {
         index = currentMaze.FindIndex(card => card.Winner == "unknown");
+        // nos quedamos sin cartas
+        if (index < 0)
+        {
+            LocalData.Instance.Save(altMaze, "altMaze");
+            Debug.Log(LocalData.Instance.Load("altMaze").Count);
+            //ImprimirUna(LocalData.Instance.Load("altMaze"));
+            // la idea es guardar el que se usa en esta partida, verificar en la siguiente y sobre escribir cambios 
+            SceneManager.LoadScene(3);
+        }
     }
     #endregion
     #region TIME
@@ -172,7 +181,7 @@ public class GameScene : MonoBehaviour
         altMaze.Add(currentMaze[index]);
         LocalData.Instance.Save(altMaze, "altMaze");
         Debug.Log(LocalData.Instance.Load("altMaze").Count);
-        ImprimirUna(LocalData.Instance.Load("altMaze"));
+        //ImprimirUna(LocalData.Instance.Load("altMaze"));
         // la idea es guardar el que se usa en esta partida, verificar en la siguiente y sobre escribir cambios 
         SceneManager.LoadScene(3);
     }
