@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using MongoDB.Bson.Serialization.Serializers;
 
 public class Options : MonoBehaviour
 {
@@ -13,6 +11,7 @@ public class Options : MonoBehaviour
     [SerializeField] public GameObject jugar;
     [SerializeField] public GameObject actualizar;
     [SerializeField] public Button ayuda;
+    [SerializeField] public Text info;
 
     [SerializeField] private Image imageAnime;
     [SerializeField] private Image imageFutbol;
@@ -37,7 +36,7 @@ public class Options : MonoBehaviour
     [HideInInspector] public bool help           = true;
 
     [HideInInspector] private bool saved         = false;
-    [HideInInspector] private bool hasConnection = false;
+    [HideInInspector] public bool hasConnection = false;
     #endregion
     #region SINGLETON
     public static Options Instance
@@ -107,12 +106,19 @@ public class Options : MonoBehaviour
             LocalData.Instance.SaveDefaultMaze();
             UpdateLocalData();
             CheckLocalData();
+            info.text = "Archivos locales restaurados";
         }
         //Debug.Log("<<----------------------Barajas de defaultMaze----------------------------------------->>");
         //ImprimirUna(defaultMaze);
         //Debug.Log("<<----------------------Barajas de disco----------------------------------------------->>");
         //ImprimirUna(LocalData.Instance.GetDefaultMaze());
     }
+    private void ParseApiResponse(string jsonResponse)
+    {
+        // Parse and process the response JSON here
+        // Example: Deserialize JSON and update local collections
+    }
+
 
     public void OnPlay()
     {
@@ -138,6 +144,7 @@ public class Options : MonoBehaviour
         gameMaze1    = new List<Card>();
         gameMaze2    = new List<Card>();
         gameMaze3    = new List<Card>();
+        info.text    = "Comprobando conexión";
     }
     private void SavePersonalOptions()
     {
@@ -247,6 +254,7 @@ public class Options : MonoBehaviour
         LoadFromLocal();
         saved = defaultMaze.Count != 0;
         jugar.SetActive(saved);
+        info.text = "Comprobando archivos locales";
     }
     private void UpdateLocalData()
     {
