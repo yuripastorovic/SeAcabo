@@ -12,6 +12,7 @@ public class ScrollController : MonoBehaviour
     [SerializeField] private Sprite accept;
     [SerializeField] private Sprite cancel;
 
+    private List<Card> alterMaze;
     private List<Card> currentMaze;
     private int turno;
     private string winner;
@@ -22,8 +23,9 @@ public class ScrollController : MonoBehaviour
     void Start()
     {
         stage = PlayerPrefs.GetInt("ronda");
-        currentMaze = new List<Card>();
-        currentMaze = LocalData.Instance.Load("altMaze");
+        alterMaze = new List<Card>();
+        alterMaze.Clear();
+        alterMaze = LocalData.Instance.Load("altMaze");
         GetTeam();
         PopulateScrollView();
     }
@@ -36,22 +38,25 @@ public class ScrollController : MonoBehaviour
     private void UpdateMaze()
     {
         // esto huele sospechoso
-        List<Card> gameMaze = new List<Card>();
-        gameMaze.Clear();
-        gameMaze = LocalData.Instance.GetCurrentGameMaze();
-        foreach (var currentCard in currentMaze)
+        currentMaze = new List<Card>();
+        currentMaze.Clear();
+        currentMaze = LocalData.Instance.GetCurrentGameMaze();
+
+        for (int i = 0; i < currentMaze.Count; i++) 
         {
-            for (int i = 0; i < gameMaze.Count; i++)
+            for (int j =0; j< alterMaze.Count; j++)
             {
-                if (gameMaze[i].Name == currentCard.Name)
+                if (currentMaze[i].Name== alterMaze[j].Name)
                 {
-                    gameMaze[i] = currentCard;
-                    break;
+                    if (alterMaze[j].Winner == "fail")
+                    {
+                        alterMaze[j].Winner = "unknown";
+                    }
+                    currentMaze[i] = alterMaze[j];
                 }
             }
         }
-        ImprimirUna(gameMaze);
-        LocalData.Instance.SaveCurrentGameMaze(gameMaze);
+        LocalData.Instance.SaveCurrentGameMaze(currentMaze);
     }
 
     private void GetTeam()
@@ -92,7 +97,7 @@ public class ScrollController : MonoBehaviour
     {
         if (card.Winner.Equals(winner))
         {
-            card.Winner = "unknown";
+            card.Winner = "fail";
             button.GetComponent<Image>().sprite = cancel;
         }
         else
@@ -104,9 +109,9 @@ public class ScrollController : MonoBehaviour
 
     private void PopulateScrollView()
     {
-        for (int i = 0; i < currentMaze.Count; i++)
+        for (int i = 0; i < alterMaze.Count; i++)
         {
-            GenerateItem(currentMaze[i], i);
+            GenerateItem(alterMaze[i], i);
         }
     }
 

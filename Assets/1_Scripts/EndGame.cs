@@ -105,15 +105,18 @@ public class EndGame : MonoBehaviour
         if (stage == 1)
         {
             stage++;
+            Debug.Log("Paso a la ronda 2");
             PlayerPrefs.SetInt("ronda", stage);
-            SceneManager.LoadScene(2);
+            PlayerPrefs.Save();
+            SceneManager.LoadScene(1);
         }
         else if (stage == 2)
         {
             stage++;
+            Debug.Log("Paso a la ronda 3");
             PlayerPrefs.SetInt("ronda", stage);
             PlayerPrefs.Save();
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(1);
         }
         else
         {
