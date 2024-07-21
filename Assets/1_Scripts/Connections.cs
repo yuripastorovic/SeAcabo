@@ -75,7 +75,7 @@ public class Connections : MonoBehaviour
     {
         try
         {
-            var collection = db.GetCollection<BsonDocument>("common");
+            var collection = db.GetCollection<BsonDocument>("common");//common
             var projection = Builders<BsonDocument>.Projection.Include("name").Include("category").Include("desc");
             var documents = await collection.Find(new BsonDocument()).Project(projection).ToListAsync();
             common.Clear();

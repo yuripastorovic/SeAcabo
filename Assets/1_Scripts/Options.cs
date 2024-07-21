@@ -3,6 +3,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+using System;
 
 public class Options : MonoBehaviour
 {
@@ -148,6 +150,14 @@ public class Options : MonoBehaviour
     }
     private void SavePersonalOptions()
     {
+        if (string.IsNullOrEmpty(team1.text))
+        {
+            team1.text = "Equipo 1";
+        }
+        if (string.IsNullOrEmpty(team2.text))
+        {
+            team2.text = "Equipo 2";
+        }
         LocalData.Instance.SavePersonalOptions();
     }
     private void SaveMazes()

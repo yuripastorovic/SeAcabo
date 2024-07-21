@@ -124,8 +124,19 @@ public class LocalData : MonoBehaviour
         Options.Instance.help       = PlayerPrefs.GetInt("help")      == 1;
 
         // Cargar nombres de equipo
-        Options.Instance.team1.text = PlayerPrefs.GetString("team1", "");
-        Options.Instance.team2.text = PlayerPrefs.GetString("team2", "");
+        string team1 = PlayerPrefs.GetString("team1", "");
+        string team2 = PlayerPrefs.GetString("team2", "");
+
+        if(team1.Equals("Equipo 1"))
+        {
+            team1 = "";
+        }
+        if(team2.Equals("Equipo 2"))
+        {
+            team2 = "";
+        }
+        Options.Instance.team1.text = team1;
+        Options.Instance.team2.text = team2;
     }
     #endregion
     public void SaveCurrentGameMaze(List<Card> gameMaze)
