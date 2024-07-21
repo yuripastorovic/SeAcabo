@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -26,11 +25,8 @@ public class GameScene : MonoBehaviour
         currentMaze = new List<Card>();
         altMaze     = new List<Card>();
         altMaze.Clear();
-        SetInitialTime();
+        SetInitialScene();
         SetScene();
-        //ImprimirUna(currentMaze);
-        //ImprimirUna(altMaze);
-
     }
     void Update()
     {
@@ -45,7 +41,10 @@ public class GameScene : MonoBehaviour
     }
     public void OnFail()
     {
-        ReduceTime();
+        if (stage == 1)
+        {
+            ReduceTime();
+        }
         currentMaze[index].Winner = "fail";
         altMaze.Add(currentMaze[index]);
         UpdateNameDesc();
@@ -60,11 +59,13 @@ public class GameScene : MonoBehaviour
         turno = PlayerPrefs.GetInt("turno");
         if (turno % 2 == 0)
         {
+            Debug.Log("Equipo2:::::::"+turno);
             winner = PlayerPrefs.GetString("team2");
             background.GetComponent<Image>().color = Color.blue;
         }
         else
         {
+            Debug.Log("Equipo1:::::"+turno);
             winner = PlayerPrefs.GetString("team1");
             background.GetComponent<Image>().color = Color.green;
         }
@@ -75,31 +76,24 @@ public class GameScene : MonoBehaviour
     /// </summary>
     private void UpdateNameDesc()
     {
-        FindNextCard();
-        title.text = currentMaze[index].Name;
-        if (PlayerPrefs.GetInt("help") == 1)
-        {
-            descr.text = currentMaze[index].Desc;
-        }
-        else
-        {
-            descr.text = "";
-        }
-    }
-    /// <summary>
-    /// Busca la siguiente carta para seguir jugando
-    /// </summary>
-    private void FindNextCard()
-    {
         index = currentMaze.FindIndex(card => card.Winner == "unknown");
-        // nos quedamos sin cartas
         if (index < 0)
         {
             LocalData.Instance.Save(altMaze, "altMaze");
-            Debug.Log(LocalData.Instance.Load("altMaze").Count);
-            //ImprimirUna(LocalData.Instance.Load("altMaze"));
-            // la idea es guardar el que se usa en esta partida, verificar en la siguiente y sobre escribir cambios 
+            //Debug.Log(LocalData.Instance.Load("altMaze").Count);
             SceneManager.LoadScene(3);
+        }
+        else
+        {
+            title.text = currentMaze[index].Name;
+            if (PlayerPrefs.GetInt("help") == 1)
+            {
+                descr.text = currentMaze[index].Desc;
+            }
+            else
+            {
+                descr.text = "";
+            }
         }
     }
     #endregion
@@ -107,25 +101,24 @@ public class GameScene : MonoBehaviour
     /// <summary>
     /// En funcion de la "ronda" prepara una tiempo u otro
     /// </summary>
-    public void SetInitialTime()
+    public void SetInitialScene()
     {
         stage = PlayerPrefs.GetInt("ronda");
-        Debug.Log("Stage" + stage);
         float time;
-        if (stage == 2)
+        if (stage == 1)
         {
-            time = 30f;
             currentMaze = LocalData.Instance.GetGameMaze1();
+            time = 30f; 
+        }
+        else if (stage == 2)
+        {
+            currentMaze = LocalData.Instance.GetGameMaze2();
+            time = 40f;
         }
         else if (stage == 3)
         {
-            time = 40f;
-            currentMaze = LocalData.Instance.GetGameMaze2();
-        }
-        else if (stage == 5)
-        {
-            time = 60f;
             currentMaze = LocalData.Instance.GetGameMaze3();
+            time = 60f;
         }
         else
         {
@@ -177,12 +170,14 @@ public class GameScene : MonoBehaviour
     #region DISPARADORES
     private void EndScene()
     {
-        currentMaze[index].Winner = "fail";
-        altMaze.Add(currentMaze[index]);
+        if (index >= 0)
+        {
+            currentMaze[index].Winner = "fail";
+            altMaze.Add(currentMaze[index]);
+        }
+        
         LocalData.Instance.Save(altMaze, "altMaze");
-        Debug.Log(LocalData.Instance.Load("altMaze").Count);
-        //ImprimirUna(LocalData.Instance.Load("altMaze"));
-        // la idea es guardar el que se usa en esta partida, verificar en la siguiente y sobre escribir cambios 
+        //Debug.Log(LocalData.Instance.Load("altMaze").Count);
         SceneManager.LoadScene(3);
     }
     #endregion

@@ -1,15 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScrollController : MonoBehaviour
 {
-    // NO ESTAMOS CARGANDO LOS ITEMS EN LA LISTA U BLOQUEMAOS EL BOTON DE SALIR
-    // ImprimirUna(LocalData.Instance.Load("altMaze")); esta funciona
     [SerializeField] private GameObject itemPrefab;                       // Prefab de los elementos de la lista
     [SerializeField] private Transform contentTransform;                  // Transform del Content en el Scroll Rect
 
@@ -39,6 +35,7 @@ public class ScrollController : MonoBehaviour
 
     private void UpdateMaze()
     {
+        // esto huele sospechoso
         List<Card> gameMaze = new List<Card>();
         gameMaze.Clear();
         gameMaze = LocalData.Instance.GetCurrentGameMaze();
@@ -53,6 +50,7 @@ public class ScrollController : MonoBehaviour
                 }
             }
         }
+        ImprimirUna(gameMaze);
         LocalData.Instance.SaveCurrentGameMaze(gameMaze);
     }
 
@@ -121,11 +119,11 @@ public class ScrollController : MonoBehaviour
         if (IsEndStage()) 
         {
             // la idea es guardar el que se usa en esta partida, verificar en la siguiente y sobre escribir cambios 
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(4);
         }
         else
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(2);
         }
         
     }
@@ -178,6 +176,22 @@ public class ScrollController : MonoBehaviour
             }
 
             return respuesta;
+        }
+    }
+    public void ImprimirUna(List<Card> cardList)
+    {
+        if (cardList.Count != 0)
+        {
+            int cont = 0;
+            foreach (var maze in cardList)
+            {
+                cont++;
+                Debug.Log($"{cont} --Name = {maze.Name}, Category = {maze.Category}, Winner = {maze.Winner}, desc = {maze.Desc}");
+            }
+        }
+        else
+        {
+            Debug.Log("Fiera la baraja esta vacia:");
         }
     }
 }

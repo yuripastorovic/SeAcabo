@@ -57,16 +57,18 @@ public class InfoMenu : MonoBehaviour
     }
     private void EndScene()
     {
+        // stage = ronda
+        // scene = escena
         int scene;
         if (stage == 0)
         {
             scene = 1;
+            stage++;
         }
         else
         {
             scene = 2;
         }
-        stage++;
         PlayerPrefs.SetInt("ronda", stage);
         PlayerPrefs.SetInt("turno", 1);
         PlayerPrefs.Save();

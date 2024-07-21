@@ -78,10 +78,12 @@ public class Connections : MonoBehaviour
             var collection = db.GetCollection<BsonDocument>("common");//common
             var projection = Builders<BsonDocument>.Projection.Include("name").Include("category").Include("desc");
             var documents = await collection.Find(new BsonDocument()).Project(projection).ToListAsync();
+
             common.Clear();
             anime.Clear();
             futbol.Clear();
             farandula.Clear();
+
             foreach (var document in documents)
             {
                 var card = new Card
@@ -91,8 +93,6 @@ public class Connections : MonoBehaviour
                     Winner = "unknown",
                     Desc = document.Contains("desc") ? document["desc"].AsString : "unknown"
                 };
-
-                //Debug.Log($"Document: Name = {card.Name}, Category = {card.Category}");
 
                 switch (card.Category)
                 {
@@ -158,8 +158,6 @@ public class Connections : MonoBehaviour
                 Winner = "unknown",
                 Desc = document.desc
             };
-
-            //Debug.Log($"Document: Name = {card.Name}, Category = {card.Category}");
 
             switch (card.Category)
             {

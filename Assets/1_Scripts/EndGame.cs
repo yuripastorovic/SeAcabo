@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -32,18 +28,16 @@ public class EndGame : MonoBehaviour
     private int stage;
     private string nameTeam1;
     private string nameTeam2;
-    // Start is called before the first frame update
+
     void Start()
     {
         InitializeScene();
     }
-
-    // Update is called once per frame
     void Update()
     {
         
     }
-    private void OnClick()
+    public void OnClick()
     {
         ButtonAction();
     }
@@ -64,6 +58,7 @@ public class EndGame : MonoBehaviour
         // Ronda 1
         int teamARonda1 = PlayerPrefs.GetInt("round1Team1");
         int teamBRonda1 = PlayerPrefs.GetInt("round1Team2");
+        Debug.Log("TEAM1+" + teamARonda1+"||||||TEAM2+"+teamBRonda1);
         team1Round1.text = teamARonda1.ToString();
         team2Round1.text = teamBRonda1.ToString();
 
@@ -72,6 +67,7 @@ public class EndGame : MonoBehaviour
             // Ronda 2
             int teamARonda2 = PlayerPrefs.GetInt("round2Team1");
             int teamBRonda2 = PlayerPrefs.GetInt("round2Team2");
+            Debug.Log("TEAM1+" + teamARonda2 + "||||||TEAM2+" + teamBRonda2);
             team1Round2.text = teamARonda2.ToString();
             team2Round2.text = teamBRonda2.ToString();
 
@@ -80,6 +76,7 @@ public class EndGame : MonoBehaviour
                 // Ronda 3
                 int teamARonda3 = PlayerPrefs.GetInt("round3Team1");
                 int teamBRonda3 = PlayerPrefs.GetInt("round3Team2");
+                Debug.Log("TEAM1+" + teamARonda3 + "||||||TEAM2+" + teamBRonda3);
                 team1Round3.text = teamARonda3.ToString();
                 team2Round3.text = teamBRonda3.ToString();
 

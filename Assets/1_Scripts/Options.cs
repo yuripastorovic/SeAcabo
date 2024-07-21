@@ -3,9 +3,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
-using System;
-
 public class Options : MonoBehaviour
 {
     private static Options _instance;
@@ -110,33 +107,13 @@ public class Options : MonoBehaviour
             CheckLocalData();
             info.text = "Archivos locales restaurados";
         }
-        //Debug.Log("<<----------------------Barajas de defaultMaze----------------------------------------->>");
-        //ImprimirUna(defaultMaze);
-        //Debug.Log("<<----------------------Barajas de disco----------------------------------------------->>");
-        //ImprimirUna(LocalData.Instance.GetDefaultMaze());
     }
-    private void ParseApiResponse(string jsonResponse)
-    {
-        // Parse and process the response JSON here
-        // Example: Deserialize JSON and update local collections
-    }
-
 
     public void OnPlay()
     {
         SavePersonalOptions();
         UpdatePersonalMaze();
         StartGame();
-        //Debug.Log("<<----------------------Barajas de memoria----------------------------------------->>");// solved
-        //ImprimirBarajas();
-        //Debug.Log("<<----------------------Barajas de disco----------------------------------------------->>");// aqui si hay cosas
-        //ImprimirUna(LocalData.Instance.GetDefaultMaze());
-        //Debug.Log("<<----------------------Barajas de disco 1----------------------------------------------->>");// solved
-        //ImprimirUna(LocalData.Instance.GetGameMaze1());
-        //Debug.Log("<<----------------------Barajas de disco 2----------------------------------------------->>");// solved
-        //ImprimirUna(LocalData.Instance.GetGameMaze2());
-        //Debug.Log("<<----------------------Barajas de disco 3----------------------------------------------->>");// solved
-        //ImprimirUna(LocalData.Instance.GetGameMaze3());
     }
     #endregion
     #region LOGIC

@@ -80,7 +80,6 @@ public class LocalData : MonoBehaviour
         if (!string.IsNullOrEmpty(jsonFromPrefs))
         {
             maze = NewtonsoftJson.DeserializeObject<List<Card>>(jsonFromPrefs);
-            //Debug.Log("Deserialized List: " + maze.Count + " items");
         }
         else
         {
@@ -161,15 +160,16 @@ public class LocalData : MonoBehaviour
         int stage = PlayerPrefs.GetInt("ronda");
         if(stage == 1)
         {
-            return Options.Instance.gameMaze1;
+            return GetGameMaze1();
         }
         else if (stage == 2) 
         {
-            return Options.Instance.gameMaze2;
+            return GetGameMaze2();
         }
         else if (stage == 3)
         {
-            return Options.Instance.gameMaze3;
+            return GetGameMaze3();
+            
         }
         else
         {
