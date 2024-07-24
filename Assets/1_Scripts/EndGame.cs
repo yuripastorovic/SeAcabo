@@ -58,7 +58,6 @@ public class EndGame : MonoBehaviour
         // Ronda 1
         int teamARonda1 = PlayerPrefs.GetInt("round1Team1");
         int teamBRonda1 = PlayerPrefs.GetInt("round1Team2");
-        Debug.Log("TEAM1+" + teamARonda1+"||||||TEAM2+"+teamBRonda1);
         team1Round1.text = teamARonda1.ToString();
         team2Round1.text = teamBRonda1.ToString();
 
@@ -105,7 +104,6 @@ public class EndGame : MonoBehaviour
         if (stage == 1)
         {
             stage++;
-            Debug.Log("Paso a la ronda 2");
             PlayerPrefs.SetInt("ronda", stage);
             PlayerPrefs.Save();
             SceneManager.LoadScene(1);
@@ -113,7 +111,6 @@ public class EndGame : MonoBehaviour
         else if (stage == 2)
         {
             stage++;
-            Debug.Log("Paso a la ronda 3");
             PlayerPrefs.SetInt("ronda", stage);
             PlayerPrefs.Save();
             SceneManager.LoadScene(1);

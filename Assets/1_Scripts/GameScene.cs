@@ -13,6 +13,7 @@ public class GameScene : MonoBehaviour
 
     private float timeRemaining;
     private bool timerIsRunning = false;
+    private bool isrunning = false;
     private int stage;
     private List<Card> currentMaze;
     private List<Card> altMaze;
@@ -35,12 +36,14 @@ public class GameScene : MonoBehaviour
     #region ON CLICK
     public void OnCorrect()
     {
+        AudioManager.Instance.Play(0);
         currentMaze[index].Winner = winner;
         altMaze.Add(currentMaze[index]);
         UpdateNameDesc();
     }
     public void OnFail()
     {
+        AudioManager.Instance.Play(1);
         if (stage == 1)
         {
             ReduceTime();
@@ -59,15 +62,13 @@ public class GameScene : MonoBehaviour
         turno = PlayerPrefs.GetInt("turno");
         if (turno % 2 == 0)
         {
-            Debug.Log("Equipo2:::::::"+turno);
             winner = PlayerPrefs.GetString("team2");
-            background.GetComponent<Image>().color = Color.blue;
+            background.GetComponent<Image>().color = new Color32(70, 130, 180, 255);
         }
         else
         {
-            Debug.Log("Equipo1:::::"+turno);
             winner = PlayerPrefs.GetString("team1");
-            background.GetComponent<Image>().color = Color.green;
+            background.GetComponent<Image>().color = new Color32(255, 165, 0, 255);
         }
         UpdateNameDesc();
     }
@@ -79,8 +80,10 @@ public class GameScene : MonoBehaviour
         index = currentMaze.FindIndex(card => card.Winner == "unknown");
         if (index < 0)
         {
+            AudioManager.Instance.Play(3);
             LocalData.Instance.Save(altMaze, "altMaze");
             //Debug.Log(LocalData.Instance.Load("altMaze").Count);
+            AudioManager.Instance.Stop();
             SceneManager.LoadScene(3);
         }
         else
@@ -159,10 +162,16 @@ public class GameScene : MonoBehaviour
             }
             else
             {
+                AudioManager.Instance.Play(3);
                 timeRemaining = 0;
                 timerIsRunning = false;
                 UpdateTimmerText();
                 EndScene();
+            }
+            if(timeRemaining <= 10 && !isrunning)
+            {
+                AudioManager.Instance.Play(2);
+                isrunning= true;
             }
         }
     }
@@ -178,24 +187,8 @@ public class GameScene : MonoBehaviour
         
         LocalData.Instance.Save(altMaze, "altMaze");
         //Debug.Log(LocalData.Instance.Load("altMaze").Count);
+        AudioManager.Instance.Stop();
         SceneManager.LoadScene(3);
     }
     #endregion
-
-    public void ImprimirUna(List<Card> cardList)
-    {
-        if (cardList.Count != 0)
-        {
-            int cont = 0;
-            foreach (var maze in cardList)
-            {
-                cont++;
-                Debug.Log($"{cont} --Name = {maze.Name}, Category = {maze.Category}, Winner = {maze.Winner}, desc = {maze.Desc}");
-            }
-        }
-        else
-        {
-            Debug.Log("Fiera la baraja esta vacia:");
-        }
-    }
 }

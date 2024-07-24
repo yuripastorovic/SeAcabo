@@ -120,7 +120,6 @@ public class ScrollController : MonoBehaviour
         turno++;
         PlayerPrefs.SetInt("turno", turno);
         PlayerPrefs.Save();
-        Debug.Log(LocalData.Instance.Load("altMaze").Count);
         if (IsEndStage()) 
         {
             // la idea es guardar el que se usa en esta partida, verificar en la siguiente y sobre escribir cambios 
