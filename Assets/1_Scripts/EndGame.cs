@@ -66,7 +66,6 @@ public class EndGame : MonoBehaviour
             // Ronda 2
             int teamARonda2 = PlayerPrefs.GetInt("round2Team1");
             int teamBRonda2 = PlayerPrefs.GetInt("round2Team2");
-            Debug.Log("TEAM1+" + teamARonda2 + "||||||TEAM2+" + teamBRonda2);
             team1Round2.text = teamARonda2.ToString();
             team2Round2.text = teamBRonda2.ToString();
 
@@ -75,7 +74,6 @@ public class EndGame : MonoBehaviour
                 // Ronda 3
                 int teamARonda3 = PlayerPrefs.GetInt("round3Team1");
                 int teamBRonda3 = PlayerPrefs.GetInt("round3Team2");
-                Debug.Log("TEAM1+" + teamARonda3 + "||||||TEAM2+" + teamBRonda3);
                 team1Round3.text = teamARonda3.ToString();
                 team2Round3.text = teamBRonda3.ToString();
 

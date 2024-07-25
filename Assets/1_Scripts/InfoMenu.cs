@@ -59,6 +59,7 @@ public class InfoMenu : MonoBehaviour
     {
         // stage = ronda
         // scene = escena
+        AudioManager.Instance.Stop();
         int scene;
         if (stage == 0)
         {

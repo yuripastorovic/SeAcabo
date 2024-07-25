@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class Options : MonoBehaviour
 {
+    //Desarrollado por Jorge Pastor Rodriguez
+
     private static Options _instance;
     #region COMPONENTS
     [SerializeField] public GameObject jugar;
@@ -61,6 +63,7 @@ public class Options : MonoBehaviour
     #endregion
     void Start()
     {
+        AudioManager.Instance.Play(4);
         InitializeMazes();      // No existen barajas, las iniciamos
         CheckConnectivity();    // Miramos si hay internet
         CheckLocalData();       // Intenta cargar desde local SOLO DEFAULTMAZE y OPCIONES

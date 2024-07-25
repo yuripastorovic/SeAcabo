@@ -134,6 +134,10 @@ public class GameScene : MonoBehaviour
     private void UpdateTimmerText()
     {
         int seconds = Mathf.FloorToInt(timeRemaining);
+        if (timeRemaining<0)
+        {
+            seconds = 0;
+        }
         timmer.text = seconds.ToString();
     }
     public void ReduceTime()

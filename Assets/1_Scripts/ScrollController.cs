@@ -22,6 +22,7 @@ public class ScrollController : MonoBehaviour
 
     void Start()
     {
+        AudioManager.Instance.Play(3);
         stage = PlayerPrefs.GetInt("ronda");
         alterMaze = new List<Card>();
         alterMaze.Clear();
